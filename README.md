@@ -1,11 +1,10 @@
-![Announcement](http://demo.hocza.com/github/laravel-announcement/laravel-announcement.png)
 # Laravel Announcement
 
 A package that simplifies the management of site-wide announcements. With "Laravel Announcement" you can display auto-expiring announcements.
 
 ## Installation
 
-1- `composer require laravelhungary/announcement`
+1- `composer require dmitriymarley/laravel-announcements`
 - plz note that the package use `predis/predis` for all of its operation.
 
 2- Add the followings to `config/app.php`
@@ -14,13 +13,13 @@ A package that simplifies the management of site-wide announcements. With "Larav
 'providers' => [
     ...
 
-    LaravelHungary\Announcement\PackageServiceProvider::class,
+    DmitriyMarley\Announcement\PackageServiceProvider::class,
 ],
 
 'aliases' => [
     ...
 
-    'Announce' => LaravelHungary\Announcement\Facades\Announce::class,
+    'Announce' => DmitriyMarley\Announcement\Facades\Announce::class,
 ]
 ```
 
@@ -92,12 +91,3 @@ Params
 2- put `<my-announcement></my-announcement>` anywhere you want this announcement to show up. For example: your **layout.blade.php** file
 
 >  if you want to use something like `Animate.css` follow [Custom Transition Classes](https://vuejs.org/v2/guide/transitions.html#Custom-Transition-Classes)
-
-Package Maintainers
----
-* Jozsef Hocza [@hocza](https://github.com/hocza)
-* Muah [@ctf0](https://github.com/ctf0)
-
-Buy us a coffee :)
----
-<a href='https://pledgie.com/campaigns/32748'><img alt='Click here to lend your support to: laravel-announcement and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/32748.png?skin_name=chrome' border='0' ></a>

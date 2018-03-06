@@ -1,26 +1,30 @@
 {
-    "version": "1.0.0",
-    "name": "dmitriymarley/laravel-announcements",
-    "description": "A simple way of announcements with Laravel",
-    "keywords": ["laravel", "announcement", "redis"],
-    "homepage": "https://github.com/dmitriymarley/laravel-announcements",
-    "authors": [
-        {
-            "name": "Dmytro Krasov",
-            "email": "dmitriymarley@gmail.com"
-        }
-    ],
-    "require": {
-        "illuminate/support": "^5.0",
-        "predis/predis": "^1.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.5"
-    },
-    "autoload": {
-       "psr-4": {
-         "DmitriyMarley\\Announcement\\": "src/Package"
-        }
-    },
-    "license": "MIT"
+  "version": "1.0.0",
+  "name": "dmitriymarley/laravel-announcements",
+  "description": "A simple way of announcements with Laravel",
+  "keywords": [
+    "laravel",
+    "announcement",
+    "redis"
+  ],
+  "homepage": "https://github.com/dmitriymarley/laravel-announcements",
+  "authors": [
+    {
+      "name": "Dmytro Krasov",
+      "email": "dmitriymarley@gmail.com"
+    }
+  ],
+  "require": {
+    "illuminate/support": "^5.0",
+    "predis/predis": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "DmitriyMarley\\Announcement\\": "src/Package"
+    }
+  },
+  "license": "MIT"
 }

@@ -123,6 +123,10 @@ class Announcement
             $collection->push($announcement);
         }
 
+        $collection->each(function ($item) {
+            $item->show = \true;
+        });
+
         return $collection;
     }
 }

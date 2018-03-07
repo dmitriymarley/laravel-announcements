@@ -54,12 +54,12 @@ class Announce
      */
     public static function broadcast($title = '', $message = '', $type = 'info', $ttl = 60, $transition = 'fade', $channel_name = null)
     {
-        if ( ! $channel_name) {
-            $channel_name = config('announcement.broadcasting_channel');
-        }
+        $channel = $channel_name ?? config('announcement.broadcasting_channel');
 
         $ttl = $ttl * 1000;
 
-        event(new NewAnnouncement($title, $message, $type, $ttl, $transition, $channel_name));
+        self::create($title, $message, $type, $ttl);
+
+        event(new NewAnnouncement($title, $message, $type, $ttl, $transition, $channel));
     }
 }

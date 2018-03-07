@@ -86,7 +86,7 @@ class Announcement
             $key_data     = explode(':', $key, 3);
             $message      = Redis::get($key);
             $ttl          = Redis::ttl($key);
-            $announcement = new self($key_data[1], $key_data[2], $message, $ttl);
+            $announcement = new self($key_data[1], $message, $key_data[2], $ttl);
             $collection->push($announcement);
         }
 

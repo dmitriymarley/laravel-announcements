@@ -56,8 +56,6 @@ class Announce
     {
         $channel = $channel_name ?? config('announcement.broadcasting_channel');
 
-        $ttl = $ttl * 1000;
-
         self::create($title, $message, $type, $ttl);
 
         event(new NewAnnouncement($title, $message, $type, $ttl, $transition, $channel));

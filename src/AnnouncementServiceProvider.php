@@ -6,13 +6,13 @@ namespace DmitriyMarley\Announcement;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * A Redis Based Announcement Package.
+ * Class AnnouncementServiceProvider
  *
- * @author: Dmytro Krasov
+ * @package DmitriyMarley\Announcement
  */
-class PackageServiceProvider extends ServiceProvider
+class AnnouncementServiceProvider extends ServiceProvider
 {
-    protected $packageName = 'announcement';
+    private const PACKAGE_NAME = 'laravel-announcement';
 
     /**
      * Bootstrap the application services.
@@ -22,12 +22,12 @@ class PackageServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Register Views from your package
-        $this->loadViewsFrom(__DIR__.'/../views', $this->packageName);
+        $this->loadViewsFrom(__DIR__.'/../views', self::PACKAGE_NAME);
 
         // Publish your config
         $this->publishes([
-            __DIR__.'/../config/config.php'                      => config_path($this->packageName.'.php'),
-            __DIR__.'/../views/alert.blade.php'                  => resource_path('views/vendor/'.$this->packageName.'/alert.blade.php'),
+            __DIR__.'/../config/config.php'                      => config_path(self::PACKAGE_NAME.'.php'),
+            __DIR__.'/../views/alert.blade.php'                  => resource_path('views/vendor/'.self::PACKAGE_NAME.'/alert.blade.php'),
             __DIR__.'/../Events/NewAnnouncement.php'             => app_path('Events/NewAnnouncement.php'),
             __DIR__.'/../components/Announcement-bootstrap.vue'  => resource_path('assets/js/components/Announcement-bootstrap.vue'),
             __DIR__.'/../components/Announcement-sweetalert.vue' => resource_path('assets/js/components/Announcement-sweetalert.vue'),
@@ -36,10 +36,12 @@ class PackageServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
+     *
+     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', $this->packageName);
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', self::PACKAGE_NAME);
 
         $this->app->bind('announce', function () {
             return new Announce;

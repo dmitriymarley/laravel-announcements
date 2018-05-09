@@ -1,5 +1,5 @@
 {
-  "version": "1.0.3",
+  "version": "2.0.0",
   "name": "dmitriymarley/laravel-announcements",
   "description": "A simple way of announcements with Laravel",
   "keywords": [
@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "DmitriyMarley\\Announcement\\": "src/Package"
+      "DmitriyMarley\\Announcement\\": "src"
     }
   },
   "license": "MIT"

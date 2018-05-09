@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace DmitriyMarley\Announcement\Announcers;
 
+use Carbon\Carbon;
 use DmitriyMarley\Announcement\Contracts\AnnouncerContract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redis;
@@ -28,7 +29,7 @@ class RedisAnnouncer implements AnnouncerContract
     }
 
     /**
-     * Get all announcements from Redis storage.
+     * Get all announcements from storage.
      *
      * @return Collection
      */
@@ -38,26 +39,112 @@ class RedisAnnouncer implements AnnouncerContract
 
         $announcements = \collect();
 
+        foreach ($keys as $key) {
+            $data = \json_decode(Redis::get($key), \true);
+            $announcements->push($this->generateAnnouncement($data));
+        }
+
         return $announcements;
     }
 
-    public function get()
+    /**
+     * Get single announcement by key.
+     *
+     * @param string|integer $key
+     *
+     * @return \stdClass
+     */
+    public function get($key): \stdClass
     {
-        // Get single announcement.
+        $data = \json_decode(Redis::get($key), \true);
+
+        return $this->generateAnnouncement($data);
     }
 
-    public function create(string $title, string $body, string $type, int $minutes)
+    /**
+     * Create new announcement
+     *
+     * @param string $title
+     * @param string $message
+     * @param string $type
+     * @param int $minutes
+     *
+     * @return \stdClass
+     */
+    public function create(string $title, string $message, string $type, int $minutes): \stdClass
     {
+        $key = $this->generateUniqueKey();
 
+        $seconds = $minutes * 60;
+
+        $data = [
+            'key'        => $key,
+            'title'      => $title,
+            'message'    => $message,
+            'type'       => $type,
+            'expires_at' => Carbon::now()->addSeconds($seconds)->toDateTimeString(),
+        ];
+
+        Redis::set($key, \json_encode($data));
+        Redis::expire($key, $seconds);
+
+        return $this->generateAnnouncement($data);
     }
 
-    public function update()
+    public function update(string $key, string $title, string $message, string $type, ?int $minutes = null): \stdClass
     {
+        $announcement = \json_decode(Redis::get($key), \true);
 
+        $data = [
+            'key'        => $key,
+            'title'      => $title,
+            'message'    => $message,
+            'type'       => $type,
+            'expires_at' => $announcement['expires_at'],
+        ];
+
+        if (null !== $minutes) {
+            $seconds = $minutes * 60;
+            $data['expires_at'] = Carbon::now()->addSeconds($seconds)->toDateTimeString();
+            Redis::expire($key, $seconds);
+        }
+
+        Redis::set($key, \json_encode($data));
+
+        return $this->generateAnnouncement($data);
     }
 
     public function delete()
     {
+        //
+    }
 
+    /**
+     * Generate full key by combining prefix, title and type
+     * of announcement.
+     *
+     * @return string
+     */
+    protected function generateUniqueKey(): string
+    {
+        $hash = \encrypt(\time());
+
+        return "{$this->keyPrefix}:{$hash}";
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \stdClass
+     */
+    protected function generateAnnouncement(array $data): \stdClass
+    {
+        return (object)[
+            'key'        => $data['key'],
+            'title'      => $data['title'],
+            'type'       => $data['type'],
+            'message'    => $data['message'],
+            'expires_at' => $data['expires_at'],
+        ];
     }
 }

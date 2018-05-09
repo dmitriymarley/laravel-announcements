@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @package DmitriyMarley\Announcement\Facades
  */
-class Announce extends Facade
+class AnnouncerFacade extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -19,6 +19,6 @@ class Announce extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'announce';
+        return 'Announcer';
     }
 }

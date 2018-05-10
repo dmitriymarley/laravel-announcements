@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace DmitriyMarley\Announcement\Facades;
 
+use DmitriyMarley\Announcement\Contracts\Announcer;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -19,6 +20,6 @@ class AnnouncerFacade extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'Announcer';
+        return Announcer::class;
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace DmitriyMarley\Announcement\Announcers;
 
-use DmitriyMarley\Announcement\Contracts\AnnouncerContract as Announcer;
+use DmitriyMarley\Announcement\Contracts\Announcer as Announcer;
 
 /**
  * Class DatabaseAnnouncer

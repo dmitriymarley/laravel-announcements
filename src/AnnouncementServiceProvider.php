@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace DmitriyMarley\Announcement;
 
+use DmitriyMarley\Announcement\Contracts\Announcer;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -41,7 +42,7 @@ class AnnouncementServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', self::PACKAGE_NAME);
 
-        $this->app->bind('Announcer', function () {
+        $this->app->bind(Announcer::class, function () {
             $driver = $this->getDriver();
             $class = "DmitriyMarley\\Announcement\\Announcers\\{$driver}Announcer";
 

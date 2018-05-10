@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace DmitriyMarley\Announcement\Announcers;
 
 use Carbon\Carbon;
-use DmitriyMarley\Announcement\Contracts\AnnouncerContract;
+use DmitriyMarley\Announcement\Contracts\Announcer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redis;
 
@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Redis;
  *
  * @package DmitriyMarley\Announcement\Announcers
  */
-class RedisAnnouncer implements AnnouncerContract
+class RedisAnnouncer implements Announcer
 {
     /**
+     * Redis storage key prefix.
+     *
      * @var string
      */
     private $keyPrefix;
@@ -62,7 +64,7 @@ class RedisAnnouncer implements AnnouncerContract
     }
 
     /**
-     * Create new announcement
+     * Create new announcement.
      *
      * @param string $title
      * @param string $message
@@ -91,7 +93,18 @@ class RedisAnnouncer implements AnnouncerContract
         return $this->generateAnnouncement($data);
     }
 
-    public function update(string $key, string $title, string $message, string $type, ?int $minutes = null): \stdClass
+    /**
+     * Update existing announcement by key.
+     *
+     * @param $key
+     * @param string $title
+     * @param string $message
+     * @param string $type
+     * @param int|null $minutes
+     *
+     * @return \stdClass
+     */
+    public function update($key, string $title, string $message, string $type, ?int $minutes = null): \stdClass
     {
         $announcement = \json_decode(Redis::get($key), \true);
 
@@ -114,9 +127,16 @@ class RedisAnnouncer implements AnnouncerContract
         return $this->generateAnnouncement($data);
     }
 
-    public function delete()
+    /**
+     * Delete existing announcement by key.
+     *
+     * @param $key
+     *
+     * @return bool
+     */
+    public function delete($key): bool
     {
-        //
+        return Redis::del($key) > 0;
     }
 
     /**
@@ -133,6 +153,8 @@ class RedisAnnouncer implements AnnouncerContract
     }
 
     /**
+     * Format retrieved announcement.
+     *
      * @param array $data
      *
      * @return \stdClass
